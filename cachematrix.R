@@ -3,24 +3,25 @@
 ## to matrix inversion that we will not discuss here). This code is for the assignment to 
 ## @write a pair of functions that cache the inverse of a matrix.
 
-# Tip for testing:
-#     m <- replicate(5, rnorm(5))   # Random 5x5 matrix
-#     solve(m)                      # Inverse matrix of m
+## Tip for testing (create a matrix and compute its inverse):
+##     m <- replicate(5, rnorm(5))   # Random 5x5 matrix
+##     solve(m)                      # Inverse matrix of m
 
-# Test code:
-#  
-#  A <- replicate(5000, rnorm(5000))
-#  a <- makeCacheMatrix(A)
-#  cacheSolve(a)
-#  A <- replicate(5000, rnorm(5000))
-#  cacheSolve(a) # It should be faster if properly cached
-#  a <- makeCacheMatrix(A)
-#  cacheSolve(a) # As a has changed it should be slow again
-#  cacheSolve(a) # cached!
+## TEST CODE
+##  
+##  A <- replicate(5000, rnorm(5000))   # Create a random matrix
+##  a <- makeCacheMatrix(A)             # Create a "CacheMatrix" object from previous matrix
+##  cacheSolve(a)                       # Test inverse. As it is new it must be calculated
+##  A <- replicate(5000, rnorm(5000))   # New values to the original matrix (A)
+##  cacheSolve(a)                       # As "CacheMatrix" special object is not modified 
+##                                      # it should be quick to show the inverse of "Old-A"
+##  a <- makeCacheMatrix(A)             # New "A" is now set to "a", so the cache should be deleted
+##  cacheSolve(a)                       # As a has changed it should be slow again (cache cleaned in previous step)
+##  cacheSolve(a)                       # cached!
 
 
 
-## makeCacheMatrix: creates a special "matrix" object that can cache its inverse.
+## makeCacheMatrix: creates a special "matrix" object for "x" that can cache its inverse.
 
 makeCacheMatrix <- function(x = matrix()) {
   m <- NULL
